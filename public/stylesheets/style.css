@@ -1,0 +1,36 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#scroll {
+  max-height: 500px;
+  width: 500px;
+  overflow: scroll;
+  margin: 10px;
+  padding: 10px;
+  border: 1px gray solid;
+}
+
+#map {
+  height: 500px;
+  width: 500px;
+  border: 1px gray solid;
+  margin: 10px;
+  padding: 10px;
+}
+
+.form-section {
+  padding: 5px;
+}
+
+

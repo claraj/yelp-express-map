@@ -1,0 +1,59 @@
+
+{{# if search}}
+    <h1>Results for {{ search }} in {{ city }}</h1>
+{{else}}
+    <h1>Results for restaurants in {{ city }}</h1>
+{{/if}}
+
+<div class="flex-container">
+
+<div id="scroll">
+
+    {{# each restaurants }}
+    <div>
+        <h2>{{this.name}}</h2>
+        <p>{{this.rating}} Stars</p>
+        <p>{{this.location.address1}}, {{this.location.city}}</p>
+    </div>
+
+    {{/each}}
+
+</div>
+
+{{!-- Mapbox map, generated with script below  --}}
+<div id="map"></div>
+
+</div>
+
+<script>
+
+
+let restaurants = {{{ json restaurants }}}
+
+if (restaurants.length > 0) {
+
+    // Center on the first result 
+    let center = [ restaurants[0].coordinates.latitude, restaurants[0].coordinates.longitude] 
+    let zoom = 11
+
+    let map = L.map('map').setView(center, zoom)
+
+    console.log(restaurants)
+    restaurants.forEach(function(r) { 
+
+        let coords = [r.coordinates.latitude, r.coordinates.longitude]
+
+        let marker = L.marker(coords)
+            .bindPopup(`<p><b>${r.name}</b></p> <p>${r.location.address1} ${r.location.city}</p> `)
+            .addTo(map)
+
+    })
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', 
+        { attribution:'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy;  <a href="https://www.mapbox.com/">Mapbox</a>', 
+        id:'mapbox.streets', 
+        accessToken: 'pk.eyJ1IjoiY2xhcmFsIiwiYSI6ImNqcmdwenViYTAwcHQ0Ym5yYmZ1Z3E2bjgifQ.QQfUvVaqPsWb_jJbP2gvHg'})
+        .addTo(map)
+}
+
+</script>
